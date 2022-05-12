@@ -1,0 +1,217 @@
+{
+	"name": "airtable-v3",
+	"keyType": "simple",
+	"commands": [
+		"std:account:list",
+		"std:account:read",
+		"std:entitlement:list",
+		"std:entitlement:read",
+		"std:test-connection",
+		"std:account:update",
+		"std:account:create",
+		"std:account:delete"
+	],
+	"sourceConfig": [
+		{
+			"type": "section",
+			"items": [
+				{
+					"key": "apiKey",
+					"label": "API Key",
+					"type": "text"
+				},
+				{
+					"key": "airtableBase",
+					"label": "airtable base ID",
+					"type": "text"
+				}
+			]
+		}
+	],
+	"accountSchema": {
+		"displayAttribute": "id",
+		"identityAttribute": "displayName",
+		"groupAttribute": "entitlements",
+		"attributes": [
+			{
+				"name": "displayName",
+				"type": "string",
+				"description": "Display Name of the account"
+			},
+			{
+				"name": "id",
+				"type": "string",
+				"description": "unique Id of the account"
+			},
+			{
+				"name": "email",
+				"type": "string",
+				"description": "Email of the account"
+			},
+			{
+				"name": "department",
+				"type": "string",
+				"description": "Deparment"
+			},
+			{
+				"name": "firstName",
+				"type": "string",
+				"description": "First Name of the Account"
+			},
+			{
+				"name": "lastName",
+				"type": "string",
+				"description": "Email of the account"
+			},
+			{
+				"name": "locked",
+				"type": "boolean",
+				"description": "lock status of account"
+			},
+			{
+				"name": "enabled",
+				"type": "boolean",
+				"description": "enabled status of account"
+			},
+			{
+				"name": "entitlements",
+				"type": "string",
+				"entitlement": true,
+				"managed": true,
+				"multi": true,
+				"description": "The groups the user belongs to presented as an array of strings"
+			}
+		]
+	},
+	"entitlementSchemas": [
+		{
+			"type": "group",
+			"displayAttribute": "name",
+			"identityAttribute": "id",
+			"attributes": [
+				{
+					"name": "id",
+					"type": "string",
+					"description": "Unique ID of the group (ex. admin)"
+				},
+				{
+					"name": "name",
+					"type": "string",
+					"description": "The display name of the group (ex. Admin)"
+				}
+			]
+		}
+	],
+	"accountCreateTemplate": {
+		"fields": [
+			{
+				"key": "email",
+				"label": "Email",
+				"type": "string",
+				"required": true,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "email"
+					}
+				}
+			},
+			{
+				"key": "id",
+				"label": "id",
+				"type": "string",
+				"required": true,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "uid"
+					}
+				}
+			},
+			{
+				"key": "password",
+				"label": "Password",
+				"type": "string",
+				"required": true,
+				"initialValue": {
+					"type": "generator",
+					"attributes": {
+						"name": "Create Password"
+					}
+				}
+			},
+			{
+				"key": "department",
+				"label": "Department",
+				"type": "string",
+				"required": false,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "department"
+					}
+				}
+			},
+			{
+				"key": "displayName",
+				"label": "Display Name",
+				"type": "string",
+				"required": false,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "displayName"
+					}
+				}
+			},
+			{
+				"key": "firstName",
+				"label": "First Name",
+				"type": "string",
+				"required": false,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "firstname"
+					}
+				}
+			},
+			{
+				"key": "lastName",
+				"label": "Last Name",
+				"type": "string",
+				"required": false,
+				"initialValue": {
+					"type": "identityAttribute",
+					"attributes": {
+						"name": "lastname"
+					}
+				}
+			},
+			{
+				"key": "enabled",
+				"label": "Enabled",
+				"type": "string",
+				"required": false,
+				"initialValue": {
+					"type": "static",
+					"attributes": {
+						"value": "true"
+					}
+				}
+			},
+			{
+				"key": "locked",
+				"label": "Enabled",
+				"type": "string",
+				"required": false,
+				"initialValue": {
+					"type": "static",
+					"attributes": {
+						"value": "false"
+					}
+				}
+			}
+		]
+	}
+}
