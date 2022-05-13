@@ -1,5 +1,5 @@
-import { AttributeChange, AttributeChangeOp, SimpleKey, StdAccountCreateInput, StdAccountCreateOutput, StdAccountListOutput, StdAccountReadOutput, StdAccountUpdateOutput } from '@sailpoint/connector-sdk'
-import { FieldSet, Records, Record, Collaborator, Attachment } from 'airtable'
+import { AttributeChangeOp, SimpleKey, StdAccountCreateInput, StdAccountCreateOutput, StdAccountListOutput, StdAccountReadOutput, StdAccountUpdateOutput } from '@sailpoint/connector-sdk'
+import { FieldSet, Record } from 'airtable'
 import { Util } from './ModelUtils'
 
 export class AirtableAccount {
@@ -10,14 +10,11 @@ export class AirtableAccount {
     department!: string
     firstName!: string
     lastName!: string
-    enabled: boolean = true
-    locked: boolean = false
+    enabled = true
+    locked = false
     password!: string
     entitlments!: Array<string>
 
-    constructor() {
-
-    }
 
     public static createWithRecords(record: Record<FieldSet>): AirtableAccount {
         const account = new AirtableAccount();

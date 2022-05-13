@@ -1,4 +1,4 @@
-import { FieldSet, Records, Record, Collaborator, Attachment } from "airtable";
+import { Collaborator, Attachment } from "airtable";
 
 export class Util {
     public static ensureString(data: string | number | boolean | Collaborator | readonly Collaborator[] | readonly string[] | readonly Attachment[] | undefined): string {

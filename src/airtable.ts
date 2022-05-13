@@ -22,13 +22,13 @@ export class AirtableClient {
         return this.airTableBase('Users').select({
             view: 'Grid view'
         }).firstPage().then(records => {
-            let recordArray: Array<AirtableAccount> = []
-            for (let record of records) {
+            const recordArray: Array<AirtableAccount> = []
+            for (const record of records) {
                 recordArray.push(AirtableAccount.createWithRecords(record))
             }
             return recordArray
         }).catch(err => {
-            throw new ConnectorError('unable to connect')
+            throw new ConnectorError('error while getting accounts: ' + err)
         })
     }
 
@@ -49,8 +49,8 @@ export class AirtableClient {
         }).then(record =>{
             const airtableRecord = AirtableAccount.createWithRecords(record)
             return airtableRecord
-        }).catch(err => {3
-            throw new ConnectorError('unable to connect')
+        }).catch(err => {
+            throw new ConnectorError('error while changing accounts: ' + err)
         })
     }
 
@@ -58,13 +58,13 @@ export class AirtableClient {
         return this.airTableBase('Entitlements').select({
             view: 'Grid view'
         }).firstPage().then(records => {
-            let recordArray: Array<AirtableEntitlement> = []
-            for (let record of records) {
+            const recordArray: Array<AirtableEntitlement> = []
+            for (const record of records) {
                 recordArray.push(new AirtableEntitlement(record))
             }
             return recordArray
         }).catch(err => {
-            throw new ConnectorError('unable to connect')
+            throw new ConnectorError('error while getting entitlements: ' + err)
         })
     }
 
@@ -75,22 +75,22 @@ export class AirtableClient {
             view: 'Grid view',
             filterByFormula: `({Id} = '${id.simple.id}')`
         }).firstPage().then(records => {
-            let recordArray: Array<AirtableAccount> = []
-            for (let record of records) {
+            const recordArray: Array<AirtableAccount> = []
+            for (const record of records) {
                 recordArray.push(AirtableAccount.createWithRecords(record))
             }
             return recordArray[0]
         }).catch(err => {
-            throw new ConnectorError('unable to connect')
+            throw new ConnectorError('error while getting account: ' + err)
         })
     }
 
-    async deleteAccount(airTableid: string): Promise<{}> {
+    async deleteAccount(airTableid: string): Promise<Record<string, never>> {
         return this.airTableBase('Users').destroy(airTableid,
-        ).then((record) => {
+        ).then(() => {
             return {}
         }).catch(err => {
-            throw new ConnectorError('unable to connect')
+            throw new ConnectorError('error while deleting account: ' + err)
         })
     }
 
@@ -112,7 +112,7 @@ export class AirtableClient {
             const airtableRecord = AirtableAccount.createWithRecords(record)
             return airtableRecord
         }).catch(err => {
-            throw new ConnectorError('unable to connect')
+            throw new ConnectorError('error while getting accounts: ' + err)
         })
 
     }
@@ -124,8 +124,8 @@ export class AirtableClient {
             view: 'Grid view',
             filterByFormula: `({Id} = '${id.simple.id}')`
         }).firstPage().then(records => {
-            let recordArray: Array<AirtableEntitlement> = [] 
-            for (let record of records) {
+            const recordArray: Array<AirtableEntitlement> = [] 
+            for (const record of records) {
                 recordArray.push(new AirtableEntitlement(record))
             }
             return recordArray[0]
