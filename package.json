@@ -1,5 +1,5 @@
 {
-  "name": "airtable-v3",
+  "name": "airtable-source",
   "version": "0.1.0",
   "main": "dist/index.js",
   "scripts": {
