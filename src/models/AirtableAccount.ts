@@ -1,5 +1,5 @@
-import { AttributeChangeOp, SimpleKey, StdAccountCreateInput, StdAccountCreateOutput, StdAccountListOutput, StdAccountReadOutput, StdAccountUpdateOutput } from '@sailpoint/connector-sdk'
-import { FieldSet, Record } from 'airtable'
+import { AttributeChange, AttributeChangeOp, SimpleKey, StdAccountCreateInput, StdAccountCreateOutput, StdAccountDisableOutput, StdAccountEnableOutput, StdAccountListOutput, StdAccountReadOutput, StdAccountUnlockOutput, StdAccountUpdateOutput } from '@sailpoint/connector-sdk'
+import { FieldSet, Records, Record, Collaborator, Attachment } from 'airtable'
 import { Util } from './ModelUtils'
 
 export class AirtableAccount {
@@ -41,8 +41,8 @@ export class AirtableAccount {
         account.department = Util.ensureAttribute(record.attributes['department'])
         account.firstName = Util.ensureAttribute(record.attributes['firstName'])
         account.lastName = Util.ensureAttribute(record.attributes['lastName'])
-        account.enabled = Util.ensureAttribute(record.attributes['enabled']) == 'false' ? false : true
-        account.locked = Util.ensureAttribute(record.attributes['locked']) == 'true' ? true : false
+        account.enabled = true
+        account.locked = false
         account.password = Util.ensureAttribute(record.attributes['password'])
         if (record.attributes['entitlements'] != null) {
             if (!Array.isArray(record.attributes['entitlements'])) {
@@ -112,9 +112,23 @@ export class AirtableAccount {
         return this.buildStandardObject();
     }
 
+    public toStdAccountDisableOutput(): StdAccountDisableOutput {
+        return this.buildStandardObject();
+    }
+
+    public toStdAccountEnableOutput(): StdAccountEnableOutput {
+        return this.buildStandardObject();
+    }
+
+    public toStdAccountUnlockOutput(): StdAccountUnlockOutput {
+        return this.buildStandardObject();
+    }
+
     private buildStandardObject(): StdAccountListOutput | StdAccountCreateOutput | StdAccountReadOutput | StdAccountListOutput {
         return {
             key: SimpleKey(this.id),
+            disabled: !this.enabled,
+            locked: this.locked,
             attributes: {
                 id: this.id,
                 displayName: this.displayName,
@@ -122,8 +136,6 @@ export class AirtableAccount {
                 firstName: this.firstName,
                 lastName: this.lastName,
                 email: this.email,
-                enabled: this.enabled,
-                locked: this.locked,
                 entitlements: this.entitlments,
             },
         }

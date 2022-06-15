@@ -1,4 +1,6 @@
 import {
+    AttributeChange,
+    AttributeChangeOp,
     ConnectorError,
     Context,
     createConnector,
@@ -8,9 +10,15 @@ import {
     StdAccountCreateOutput,
     StdAccountDeleteInput,
     StdAccountDeleteOutput,
+    StdAccountDisableInput,
+    StdAccountDisableOutput,
+    StdAccountEnableInput,
+    StdAccountEnableOutput,
     StdAccountListOutput,
     StdAccountReadInput,
     StdAccountReadOutput,
+    StdAccountUnlockInput,
+    StdAccountUnlockOutput,
     StdAccountUpdateInput,
     StdAccountUpdateOutput,
     StdEntitlementListInput,
@@ -81,5 +89,39 @@ export const connector = async () => {
             }
 
             res.send(account.toStdAccountUpdateOutput())
+        })
+
+        
+        .stdAccountDisable(async (context: Context, input: StdAccountDisableInput, res: Response<StdAccountDisableOutput>) => {
+            let account = await airtable.getAccount(input.key)
+            const change: AttributeChange = {
+                op: AttributeChangeOp.Set,
+                attribute: 'enabled',
+                value: 'false'
+            }
+            account = await airtable.changeAccount(account, change)
+            res.send(account.toStdAccountDisableOutput())
+        })
+
+        .stdAccountEnable(async (context: Context, input: StdAccountEnableInput, res: Response<StdAccountEnableOutput>) => {
+            let account = await airtable.getAccount(input.key)
+            const change: AttributeChange = {
+                op: AttributeChangeOp.Set,
+                attribute: 'enabled',
+                value: 'true'
+            }
+            account = await airtable.changeAccount(account, change)
+            res.send(account.toStdAccountEnableOutput())
+        })
+
+        .stdAccountUnlock(async (context: Context, input: StdAccountUnlockInput, res: Response<StdAccountUnlockOutput>) => {
+            let account = await airtable.getAccount(input.key)
+            const change: AttributeChange = {
+                op: AttributeChangeOp.Set,
+                attribute: 'locked',
+                value: 'false'
+            }
+            account = await airtable.changeAccount(account, change)
+            res.send(account.toStdAccountUnlockOutput())
         })
 }

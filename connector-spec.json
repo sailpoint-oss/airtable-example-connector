@@ -1,5 +1,5 @@
 {
-	"name": "airtable-source",
+	"name": "airtable-v4",
 	"keyType": "simple",
 	"commands": [
 		"std:account:list",
@@ -9,7 +9,10 @@
 		"std:test-connection",
 		"std:account:update",
 		"std:account:create",
-		"std:account:delete"
+		"std:account:delete",
+		"std:account:disable",
+		"std:account:enable",
+		"std:account:unlock"
 	],
 	"sourceConfig": [
 		{
@@ -30,7 +33,7 @@
 	],
 	"accountSchema": {
 		"displayAttribute": "id",
-		"identityAttribute": "displayName",
+		"identityAttribute": "email",
 		"groupAttribute": "entitlements",
 		"attributes": [
 			{
@@ -62,16 +65,6 @@
 				"name": "lastName",
 				"type": "string",
 				"description": "Email of the account"
-			},
-			{
-				"name": "locked",
-				"type": "boolean",
-				"description": "lock status of account"
-			},
-			{
-				"name": "enabled",
-				"type": "boolean",
-				"description": "enabled status of account"
 			},
 			{
 				"name": "entitlements",
