@@ -180,30 +180,6 @@
 						"name": "lastname"
 					}
 				}
-			},
-			{
-				"key": "enabled",
-				"label": "Enabled",
-				"type": "string",
-				"required": false,
-				"initialValue": {
-					"type": "static",
-					"attributes": {
-						"value": "true"
-					}
-				}
-			},
-			{
-				"key": "locked",
-				"label": "Enabled",
-				"type": "string",
-				"required": false,
-				"initialValue": {
-					"type": "static",
-					"attributes": {
-						"value": "false"
-					}
-				}
 			}
 		]
 	}

@@ -1,7 +1,8 @@
-import { AttributeChange, CompoundKeyType, ConnectorError, SimpleKeyType, StdAccountCreateInput } from "@sailpoint/connector-sdk"
+import { AttributeChange, CompoundKeyType, ConnectorError, ConnectorErrorType, SimpleKeyType, StdAccountCreateInput } from "@sailpoint/connector-sdk"
 import Airtable from "airtable/lib/airtable"
 import { AirtableAccount } from "./models/AirtableAccount"
 import { AirtableEntitlement } from "./models/AirtableEntitlement"
+import crypto from "crypto"
 
 export class AirtableClient {
     private readonly airTableBase: Airtable.Base
@@ -70,6 +71,7 @@ export class AirtableClient {
 
     async getAccount(identity: SimpleKeyType | CompoundKeyType): Promise<AirtableAccount> {
         const id = <SimpleKeyType>identity
+        let found = false
 
         return this.airTableBase('Users').select({
             view: 'Grid view',
@@ -77,11 +79,16 @@ export class AirtableClient {
         }).firstPage().then(records => {
             const recordArray: Array<AirtableAccount> = []
             for (const record of records) {
+                found = true
                 recordArray.push(AirtableAccount.createWithRecords(record))
             }
             return recordArray[0]
         }).catch(err => {
             throw new ConnectorError('error while getting account: ' + err)
+        }).finally(() => {
+            if (!found) {
+                throw new ConnectorError("Account not found", ConnectorErrorType.NotFound)
+            }
         })
     }
 
@@ -106,7 +113,7 @@ export class AirtableClient {
             "firstName": account.firstName,
             "lastName": account.lastName,
             "locked": account.locked ? 'true' : 'false',
-            "password": account.password,
+            "password": account.password ? account.password : crypto.randomBytes(20).toString('hex'),
             "entitlements": account.entitlments.join(',') 
         }).then(record => {
             const airtableRecord = AirtableAccount.createWithRecords(record)
@@ -119,6 +126,7 @@ export class AirtableClient {
 
     async getEntitlement(identity: SimpleKeyType | CompoundKeyType): Promise<AirtableEntitlement> {
         const id = <SimpleKeyType>identity
+        let found = false
 
         return this.airTableBase('Entitlements').select({
             view: 'Grid view',
@@ -126,11 +134,16 @@ export class AirtableClient {
         }).firstPage().then(records => {
             const recordArray: Array<AirtableEntitlement> = [] 
             for (const record of records) {
+                found = true
                 recordArray.push(new AirtableEntitlement(record))
             }
             return recordArray[0]
         }).catch(err => {
             throw new ConnectorError('unable to connect')
+        }).finally(() => {
+            if (!found) {
+                throw new ConnectorError('Entitlement not found')
+            }
         })
     }
 
