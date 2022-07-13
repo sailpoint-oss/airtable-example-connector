@@ -62,7 +62,7 @@ export class AirtableClient {
         }).firstPage().then(records => {
             const recordArray: Array<AirtableEntitlement> = []
             for (const record of records) {
-                recordArray.push(new AirtableEntitlement(record))
+                recordArray.push(AirtableEntitlement.createWithRecords(record))
             }
             return recordArray
         }).catch(err => {
@@ -179,7 +179,7 @@ export class AirtableClient {
             const recordArray: Array<AirtableEntitlement> = [] 
             for (const record of records) {
                 found = true
-                recordArray.push(new AirtableEntitlement(record))
+                recordArray.push(AirtableEntitlement.createWithRecords(record))
             }
             return recordArray[0]
         }).catch(err => {

@@ -6,9 +6,12 @@ export class AirtableEntitlement {
     id!: string;
     name!: string;
 
-    constructor(record: Record<FieldSet>) {
-        this.id = Util.ensureString(record.get('id'));
-        this.name = Util.ensureString(record.get('name'));
+    public static createWithRecords(record: Record<FieldSet>): AirtableEntitlement {
+        const entitlement = new AirtableEntitlement();
+        entitlement.id = Util.ensureString(record.get('id'));
+        entitlement.name = Util.ensureString(record.get('name'));
+
+        return entitlement
     }
 
     public toStdEntitlementListOutput(): StdEntitlementListOutput {
