@@ -12,6 +12,7 @@ import {
     StdAccountDeleteOutput,
     StdAccountDisableInput,
     StdAccountDisableOutput,
+    StdAccountDiscoverSchemaOutput,
     StdAccountEnableInput,
     StdAccountEnableOutput,
     StdAccountListOutput,
@@ -53,6 +54,12 @@ export const connector = async () => {
             const account = await airtable.getAccount(input.key)
 
             res.send(account.toStdAccountReadOutput())
+        })
+
+        .stdAccountDiscoverSchema(async (context: Context, input: undefined, res: Response<StdAccountDiscoverSchemaOutput>) => {
+            const account = await airtable.getAccountSchema()
+
+            res.send(account)
         })
 
         .stdAccountCreate(async (context: Context, input: StdAccountCreateInput, res: Response<StdAccountCreateOutput>) => {

@@ -1,4 +1,4 @@
-import { AttributeChange, CompoundKeyType, ConnectorError, ConnectorErrorType, SimpleKeyType, StdAccountCreateInput } from "@sailpoint/connector-sdk"
+import { AttributeChange, CompoundKeyType, ConnectorError, ConnectorErrorType, SimpleKeyType, StdAccountCreateInput, StdAccountDiscoverSchemaOutput } from "@sailpoint/connector-sdk"
 import Airtable from "airtable/lib/airtable"
 import { AirtableAccount } from "./models/AirtableAccount"
 import { AirtableEntitlement } from "./models/AirtableEntitlement"
@@ -89,6 +89,49 @@ export class AirtableClient {
             if (!found) {
                 throw new ConnectorError("Account not found", ConnectorErrorType.NotFound)
             }
+        })
+    }
+
+    async getAccountSchema(): Promise<StdAccountDiscoverSchemaOutput> {
+        return this.airTableBase('Users').select({
+            view: 'Grid view'
+        }).firstPage().then(records => {
+            const recordArray: StdAccountDiscoverSchemaOutput = {
+                "identityAttribute": 'email',
+                "displayAttribute": 'id',
+                "groupAttribute": 'entitlments',
+                "attributes": []
+            }
+            recordArray.attributes = []
+            for (const record of records) {
+                const fieldset = record.fields
+                for (const [key] of Object.entries(fieldset)) {
+                    if (key === 'entitlements') {
+                        recordArray.attributes.push(
+                            {
+                                "name": key,
+                                "description": key,
+                                "type": "string",
+                                "entitlement": true,
+                                "managed": true,
+                                "multi": true
+                            }
+                        )
+                    } else {
+                        recordArray.attributes.push(
+                            {
+                                "name": key,
+                                "description": key,
+                                "type": "string"
+                            }
+                        )
+                    }
+                }
+                break
+            }
+            return recordArray
+        }).catch(err => {
+            throw new ConnectorError('error while getting accounts: ' + err)
         })
     }
 
