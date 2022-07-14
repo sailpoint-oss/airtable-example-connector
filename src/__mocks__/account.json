@@ -1,0 +1,13 @@
+{
+    "airtableId": "1234",
+    "displayName": "Test User",
+    "email": "test@test.com",
+    "id": "1234",
+    "enabled": true,
+    "locked": false,
+    "department": "accounting",
+    "firstName": "test",
+    "lastName": "user",
+    "password": "password1234",
+    "entitlments": ["ent1", "ent2"] 
+}

@@ -8,7 +8,6 @@
 		"std:entitlement:read",
 		"std:test-connection",
 		"std:account:update",
-		"std:account:discover-schema",
 		"std:account:create",
 		"std:account:delete",
 		"std:account:disable",

@@ -1,0 +1,60 @@
+{
+    "identityAttribute": "email",
+    "displayAttribute": "id",
+    "groupAttribute": "entitlments",
+    "attributes": [
+        {
+            "name": "id",
+            "description": "id",
+            "type": "string"
+        },
+        {
+            "name": "enabled",
+            "description": "enabled",
+            "type": "string"
+        },
+        {
+            "name": "department",
+            "description": "department",
+            "type": "string"
+        },
+        {
+            "name": "locked",
+            "description": "locked",
+            "type": "string"
+        },
+        {
+            "name": "entitlements",
+            "description": "entitlements",
+            "type": "string",
+            "entitlement": true,
+            "managed": true,
+            "multi": true
+        },
+        {
+            "name": "password",
+            "description": "password",
+            "type": "string"
+        },
+        {
+            "name": "displayName",
+            "description": "displayName",
+            "type": "string"
+        },
+        {
+            "name": "lastName",
+            "description": "lastName",
+            "type": "string"
+        },
+        {
+            "name": "email",
+            "description": "email",
+            "type": "string"
+        },
+        {
+            "name": "firstName",
+            "description": "firstName",
+            "type": "string"
+        }
+    ]
+}
