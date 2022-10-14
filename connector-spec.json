@@ -16,17 +16,28 @@
 	],
 	"sourceConfig": [
 		{
-			"type": "section",
+			"type": "menu",
+			"label": "Configuration",
 			"items": [
 				{
-					"key": "apiKey",
-					"label": "API Key",
-					"type": "text"
-				},
-				{
-					"key": "airtableBase",
-					"label": "airtable base ID",
-					"type": "text"
+
+                    "type": "section",
+                    "sectionTitle": "Authentication",
+                    "sectionHelpMessage": "Provide the parameters to connect with the airtable worksheet.",
+                    "items": [
+                        {
+                            "key": "apiKey",
+                            "label": "API Key",
+                            "required": true,
+                            "type": "secret"
+                        },
+						{
+                            "key": "airtableBase",
+                            "label": "airtable base ID",
+                            "required": true,
+                            "type": "secret"
+                        }
+                    ]
 				}
 			]
 		}
