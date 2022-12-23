@@ -16,6 +16,7 @@ export class AirtableAccount {
     entitlments!: Array<string>
 
 
+    // Create the account from the record coming from Airtable
     public static createWithRecords(record: Record<FieldSet>): AirtableAccount {
         const account = new AirtableAccount();
         account.airtableId = record.id
@@ -32,11 +33,15 @@ export class AirtableAccount {
         return account;
     }
 
+
+    // Create the account from the IdentityNow Object 
     public static createWithStdAccountCreateInput(record: StdAccountCreateInput): AirtableAccount {
         const account = new AirtableAccount();
         account.airtableId = ''
         account.displayName = Util.ensureAttribute(record.attributes['displayName'])
-        account.email = Util.ensureAttribute(record.attributes['email'])
+        // Email is populated from the 'identity' attribute because it is defined as such in the connector-spec.json. 
+        // Typically it would be found in the attributes like the rest of the fields, but it is mapped to identity instead
+        account.email = Util.ensureAttribute(record['identity'])
         account.id = Util.ensureAttribute(record.attributes['id'])
         account.department = Util.ensureAttribute(record.attributes['department'])
         account.firstName = Util.ensureAttribute(record.attributes['firstName'])

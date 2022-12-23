@@ -11,7 +11,7 @@
 ### creating the source
 - Clone this repository
 - Install the dependencies `npm install`
-- Create your connector `sp conn create "airtable managed connector"`
+- Create your connector `sail conn create "airtable managed connector"`
 - Build the connector `npm run pack-zip`
-- Upload the connector into your IDN org: `sp conn upload -c {Connector ID} -f dist/airtable-source.zip`
+- Upload the connector into your IDN org: `sail conn upload -c {Connector ID} -f dist/airtable-source.zip`
 - Your connector will now be availble for use in IDN when you create a new source

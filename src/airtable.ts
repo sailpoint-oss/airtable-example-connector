@@ -76,7 +76,7 @@ export class AirtableClient {
 
         return this.airTableBase('Users').select({
             view: 'Grid view',
-            filterByFormula: `({Id} = '${id.simple.id}')`
+            filterByFormula: `({id} = '${id.simple.id}')`
         }).firstPage().then(records => {
             const recordArray: Array<AirtableAccount> = []
             for (const record of records) {

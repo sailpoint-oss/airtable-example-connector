@@ -93,6 +93,7 @@ export const connector = async () => {
         })
 
         .stdAccountUpdate(async (context: Context, input: StdAccountUpdateInput, res: Response<StdAccountUpdateOutput>) => {
+            logger.info(input, "getting account using input")
             let account = await airtable.getAccount(input.key)
             logger.info(account, "changing the following account in Airtable")
             for (const changes of input.changes) {
