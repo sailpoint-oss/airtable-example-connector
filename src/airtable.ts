@@ -98,7 +98,7 @@ export class AirtableClient {
             view: 'Grid view'
         }).firstPage().then(records => {
             const recordArray: StdAccountDiscoverSchemaOutput = {
-                "identityAttribute": 'email',
+                "identityAttribute": 'id',
                 "displayAttribute": 'id',
                 "groupAttribute": 'entitlments',
                 "attributes": []

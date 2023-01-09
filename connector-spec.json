@@ -44,7 +44,7 @@
 	],
 	"accountSchema": {
 		"displayAttribute": "id",
-		"identityAttribute": "email",
+		"identityAttribute": "id",
 		"groupAttribute": "entitlements",
 		"attributes": [
 			{

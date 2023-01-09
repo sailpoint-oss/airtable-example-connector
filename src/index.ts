@@ -65,7 +65,8 @@ export const connector = async () => {
         })
 
         .stdAccountCreate(async (context: Context, input: StdAccountCreateInput, res: Response<StdAccountCreateOutput>) => {
-            if (!input.attributes.id) {
+            logger.info(input, "creating account using input")
+            if (!input.identity) {
                 throw new ConnectorError('identity cannot be null')
             }
             const user = await airtable.createAccount(input)

@@ -39,10 +39,10 @@ export class AirtableAccount {
         const account = new AirtableAccount();
         account.airtableId = ''
         account.displayName = Util.ensureAttribute(record.attributes['displayName'])
-        // Email is populated from the 'identity' attribute because it is defined as such in the connector-spec.json. 
+        account.email = Util.ensureAttribute(record.attributes['email'])
+        // ID is populated from the 'identity' attribute because it is defined as such in the connector-spec.json. 
         // Typically it would be found in the attributes like the rest of the fields, but it is mapped to identity instead
-        account.email = Util.ensureAttribute(record['identity'])
-        account.id = Util.ensureAttribute(record.attributes['id'])
+        account.id = record.attributes.id ? Util.ensureAttribute(record.attributes['id']) : Util.ensureAttribute(record['identity'])
         account.department = Util.ensureAttribute(record.attributes['department'])
         account.firstName = Util.ensureAttribute(record.attributes['firstName'])
         account.lastName = Util.ensureAttribute(record.attributes['lastName'])
