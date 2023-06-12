@@ -34,6 +34,22 @@ export class AirtableClient {
         })
     }
 
+    async getAllStatefulAccounts(state: Date): Promise<AirtableAccount[]> {
+        const newdate= (state.getMonth() + 1) + '/' + state.getDate() + '/' +  state.getFullYear() + '-' + state.getHours() + ':' + state.getMinutes();
+        return this.airTableBase('Users').select({
+            view: 'Grid view',
+            filterByFormula: `(IS_BEFORE(DATETIME_PARSE("${newdate}", "MM/DD/YYYY-HH:mm"),{ModifiedDate}))`
+        }).firstPage().then(records => {
+            const recordArray: Array<AirtableAccount> = []
+            for (const record of records) {
+                recordArray.push(AirtableAccount.createWithRecords(record))
+            }
+            return recordArray
+        }).catch(err => {
+            throw new ConnectorError('error while getting accounts: ' + err)
+        })
+    }
+
     async changeAccount(account: AirtableAccount, changes: AttributeChange): Promise<AirtableAccount> {
         account.updateFieldByName(changes.attribute, changes.value, changes.op)
 
