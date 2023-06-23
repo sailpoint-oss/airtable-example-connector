@@ -15,6 +15,7 @@ import {
     StdAccountDiscoverSchemaOutput,
     StdAccountEnableInput,
     StdAccountEnableOutput,
+    StdAccountListInput,
     StdAccountListOutput,
     StdAccountReadInput,
     StdAccountReadOutput,
@@ -44,13 +45,24 @@ export const connector = async () => {
         .stdTestConnection(async (context: Context, input: undefined, res: Response<StdTestConnectionOutput>) => {
             res.send(await airtable.testConnection())
         })
-        .stdAccountList(async (context: Context, input: undefined, res: Response<StdAccountListOutput>) => {
-            const accounts = await airtable.getAllAccounts()
-
+        .stdAccountList(async (context: Context, input: StdAccountListInput, res: Response<StdAccountListOutput>) => {
+            let accounts = []
+            const state = {"data": Date.now().toString()}
+            if (!input.state && input.stateful) {
+                logger.info(input, "No state provided, fetching all accounts")
+                accounts = await airtable.getAllAccounts()
+            } else if (input.state && input.stateful) {
+                logger.info(input ,"Current state provided, only fetching accounts after that state")
+                accounts = await airtable.getAllStatefulAccounts(new Date(Number(input.state?.data)))
+            } else {
+                logger.info(input.state ,"Source is not stateful, getting all acounts")
+                accounts = await airtable.getAllAccounts()
+            }
             logger.info(accounts, "fetched the following accounts from Airtable")
             for (const account of accounts) {
                 res.send(account.toStdAccountListOutput())
             }
+            res.saveState(state)
         })
         .stdAccountRead(async (context: Context, input: StdAccountReadInput, res: Response<StdAccountReadOutput>) => {
             const account = await airtable.getAccount(input.key)

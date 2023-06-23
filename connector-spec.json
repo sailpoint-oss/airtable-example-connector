@@ -1,6 +1,7 @@
 {
-	"name": "airtable-v4",
+	"name": "airtable-v5",
 	"keyType": "simple",
+	"supportsStatefulCommands": true,
 	"commands": [
 		"std:account:list",
 		"std:account:read",
@@ -36,7 +37,13 @@
                             "label": "airtable base ID",
                             "required": true,
                             "type": "secret"
-                        }
+                        },
+						{
+							"key": "spConnEnableStatefulCommands",
+							"label": "Stateful",
+							"required": true,
+							"type": "checkbox"
+						}
                     ]
 				}
 			]

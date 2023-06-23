@@ -1,12 +1,12 @@
 {
-  "name": "airtable-v4",
+  "name": "airtable-v5",
   "version": "0.1.0",
   "main": "dist/index.js",
   "scripts": {
     "clean": "shx rm -rf ./dist",
     "prebuild": "npm run clean",
     "build": "npx ncc build ./src/index.ts -o ./dist -m -C",
-    "dev": "spcx dist/index.js",
+    "dev": "spcx run dist/index.js",
     "prettier": "npx prettier --write .",
     "test": "jest --coverage",
     "prepack-zip": "npm ci && npm run build",
@@ -14,7 +14,7 @@
   },
   "private": true,
   "dependencies": {
-    "@sailpoint/connector-sdk": "github:sailpoint-oss/sp-connector-sdk-js",
+    "@sailpoint/connector-sdk": "^1.1.2",
     "airtable": "^0.11.3"
   },
   "devDependencies": {
