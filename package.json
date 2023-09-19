@@ -21,14 +21,14 @@
     "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
-    "@vercel/ncc": "^0.28.6",
+    "@vercel/ncc": "^0.34.0",
     "bestzip": "^2.2.0",
     "eslint": "^8.15.0",
     "jest": "^27.0.6",
     "prettier": "^2.3.2",
     "shx": "^0.3.3",
     "ts-jest": "^27.0.5",
-    "typescript": "^4.3.5"
+    "typescript": "4.3.5"
   },
   "jest": {
     "preset": "ts-jest",
