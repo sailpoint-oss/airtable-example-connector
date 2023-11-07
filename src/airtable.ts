@@ -20,6 +20,10 @@ export class AirtableClient {
         this.airTableBase = Airtable.base(config.airtableBase)
     }
 
+    getAirtableBase(): string {
+        return this.airTableBase.getId()
+    }
+
     async getAllAccounts(): Promise<AirtableAccount[]> {
         return this.airTableBase('Users').select({
             view: 'Grid view'
@@ -39,6 +43,21 @@ export class AirtableClient {
         return this.airTableBase('Users').select({
             view: 'Grid view',
             filterByFormula: `(IS_BEFORE(DATETIME_PARSE("${newdate}", "MM/DD/YYYY-HH:mm"),{ModifiedDate}))`
+        }).firstPage().then(records => {
+            const recordArray: Array<AirtableAccount> = []
+            for (const record of records) {
+                recordArray.push(AirtableAccount.createWithRecords(record))
+            }
+            return recordArray
+        }).catch(err => {
+            throw new ConnectorError('error while getting accounts: ' + err)
+        })
+    }
+
+    async queryAccounts(query: string): Promise<AirtableAccount[]> {
+        return this.airTableBase('Users').select({
+            view: 'Grid view',
+            filterByFormula: query
         }).firstPage().then(records => {
             const recordArray: Array<AirtableAccount> = []
             for (const record of records) {

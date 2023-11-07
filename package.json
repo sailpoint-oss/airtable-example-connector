@@ -10,12 +10,13 @@
     "prettier": "npx prettier --write .",
     "test": "jest --coverage",
     "prepack-zip": "npm ci && npm run build",
-    "pack-zip": "(cp connector-spec.json ./dist/ && cd ./dist && bestzip $npm_package_name-$npm_package_version.zip ./index.js ./connector-spec.json)"
+    "pack-zip": "spcx package"
   },
   "private": true,
   "dependencies": {
-    "@sailpoint/connector-sdk": "^1.1.2",
-    "airtable": "^0.11.3"
+    "@sailpoint/connector-sdk": "^1.1.9",
+    "airtable": "^0.11.3",
+    "alasql": "^4.1.10"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
